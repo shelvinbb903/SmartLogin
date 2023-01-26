@@ -1,0 +1,36 @@
+<app-header></app-header>
+
+<div class="container">    
+
+    <div class="card mt-5">
+        <div class="card-header">
+            <h5 class="card-title">{{data.title || ''}}</h5>
+        </div>
+        <div class="card-body">            
+            <p class="card-text">{{data.description || ''}}</p>
+            <form [formGroup]="userForm" (ngSubmit)="submitData()">                
+
+                <div *ngFor="let item of data.properties || {} | properties">
+                    <div [class]="(data.properties[item].error ? 'input-group' : 'input-group mb-2')">
+                        <div class="input-group-prepend" *ngIf="data.properties[item].format != 'textarea'">
+                            <span class="input-group-text">
+                                <i [ngClass]="data.properties[item].required ? 'bi bi-bookmark-star' : 'bi bi-bookmark'"></i>
+                            </span>
+                        </div>
+                        <input [type]="data.properties[item].format || 'text'" [value]="data.properties[item].default || ''" class="form-control" [placeholder]="data.properties[item].title" aria-describedby="basic-addon1" [formControlName]="item" *ngIf="data.properties[item].format != 'textarea'">
+                        
+                        <textarea class="form-control" [placeholder]="data.properties[item].title" [value]="data.properties[item].default || ''" [formControlName]="item" *ngIf="data.properties[item].format == 'textarea'"></textarea>                                                
+                    </div>
+                    <div class="alert alert-danger pt-2 ps-4 pb-2 pe-4 mb-2" role="alert" *ngIf="data.properties[item].error">
+                        {{data.properties[item].error}}
+                    </div>
+                </div>
+                
+                
+                
+            </form> 
+
+            <button type="button" class="btn btn-primary" (click)="submitData()">Submit</button>
+        </div>
+    </div>
+</div>
